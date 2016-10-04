@@ -1,0 +1,44 @@
+
+before_script:
+
+  # # https://docs.gitlab.com/ee/ci/ssh_keys/README.html
+  # commands below copy your private key and ssh config(if you need custom one) 
+  # from you project's "Variables" so that deployer can use those to connect to remote
+  # host
+  - mkdir -p ~/.ssh
+  - echo $SSH_PRIVATE_KEY >> ~/.ssh/id_rsa
+  - echo $SSH_CONFIG >> ~/.ssh/config
+  
+#
+# Examples - both use the image "bwach/docker-gitlab-ci-deployer" where deployer 2.0.5 is preinstalled
+#
+
+#  
+# Example for deployment to the default environment in your deployer configuration
+# whenever you push to "develop" branch
+#
+
+#build:dev:
+#  stage: deploy
+#  image: bwach/docker-gitlab-ci-deployer
+#  only: 
+#  - develop
+#  environment: dev
+#  script:
+#    - /vendor/bin/dep deploy -vv
+
+#  
+# Example for deployment to the environment named "test" in your deployer configuration when
+# you push to "test" branch. In this case, you will need/have the chance to manually deploy 
+# it through gitlab build page for your project.
+#
+
+#build:test:
+#  stage: deploy
+#  image: bwach/docker-gitlab-ci-deployer
+#  only: 
+#  - test
+#  environment: test
+#  when: manual
+#  script:
+#    - /vendor/bin/dep deploy test -vv
